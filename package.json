@@ -1,0 +1,27 @@
+{
+  "name": "webtime",
+  "version": "1.0.0",
+  "description": "Chrome extension for monitoring the time you spend on the web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imolorhe/webtime.git"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "vue",
+    "web",
+    "productivity",
+    "tracking"
+  ],
+  "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/imolorhe/webtime/issues"
+  },
+  "homepage": "https://github.com/imolorhe/webtime#readme"
+}
