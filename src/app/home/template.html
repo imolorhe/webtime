@@ -1,3 +1,16 @@
 <div class="app-wrapper">
   <div class="app-background" v-bind:class="{ 'app-background--show': showBg }"></div>
+  <div class="app-content">
+    <Clock />
+  </div>
+  <div class="top-domain-stats">
+    <h2 class="top-domain-stats__title">Top sites visited today</h2>
+    <div class="top-domain-stats__content">
+      <div class="top-domain-stat" v-for="domain in topDomains">
+        <div class="top-domain-stat__count">{{ parseInt(domain.total_time, 10) }}</div>
+        <div class="top-domain-stat__unit">s</div>
+        <div class="top-domain-stat__domain">{{ domain.domain }}</div>
+      </div>
+    </div>
+  </div>
 </div>

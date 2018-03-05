@@ -1,6 +1,6 @@
 import * as parseUrl from 'parse-url';
 import * as localforage from 'localforage';
-import { getFocusedTab, getCurrentYYYYMMDD } from './utils';
+import { getFocusedTab, getCurrentYYYYMMDD, domainStorageKey } from './utils';
 
 interface DomainItemData {
   /** 
@@ -16,7 +16,7 @@ interface DomainList {
 }
 
 export class TimeTracker {
-  domainsStorageKey = 'tt::domains';
+  domainsStorageKey = domainStorageKey;
   currentDomain = '';
   lastTime = Date.now();
   isTracking = false;

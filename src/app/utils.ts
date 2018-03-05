@@ -1,3 +1,5 @@
+export const domainStorageKey = 'tt::domains';
+
 export const getFocusedTab = (): Promise<chrome.tabs.Tab> => {
   return new Promise((resolve, reject) => {
     try {
