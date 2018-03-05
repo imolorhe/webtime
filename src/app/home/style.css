@@ -1,0 +1,37 @@
+:root {
+  --primary-color: #5628B4;
+  --secondary-color: #D80E70;
+  --accent-color: #E7455F;
+  --descent-color: #F7B236;
+}
+* {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: grayscale;
+}
+
+.app-wrapper {
+  position: relative;
+  height: 100%;
+  background: #FAFAFA;
+}
+
+.app-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url(https://source.unsplash.com/featured/1400x900/?focus,minimal,nature);
+  background-size: cover;
+  transition: all 1s ease;
+  opacity: 0;
+}
+.app-background--show {
+  opacity: 1;
+}

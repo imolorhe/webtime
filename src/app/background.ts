@@ -37,7 +37,7 @@ chrome.windows.onFocusChanged.addListener((windowId) => {
   // console.log('window focused...', windowId);
   // If the browser is out of focus, stop all timers
   if(windowId === chrome.windows.WINDOW_ID_NONE) {
-    console.log('Browser blurred.');
+    // console.log('Browser blurred.');
     timeTracker.stopTracking();
   } else {
     // Check the currently focused window and monitor it

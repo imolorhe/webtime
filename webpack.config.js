@@ -2,10 +2,12 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {
-  entry: './src/js/background.ts',
+  entry: {
+    bundle: './src/app/background.ts',
+    app: './src/app/app.ts'
+  },
   output: {
-    path: path.resolve(__dirname, 'webtime-dist'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, 'webtime-dist')
   },
   devtool: 'inline-source-map',
   module: {
@@ -13,13 +15,24 @@ const config = {
       // { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            appendTsSuffixTo: [/\.vue$/]
+          }
+        },
+        exclude: /node_modules/
+      },
+      {
+        test: /\.vue$/,
+        use: 'vue-loader',
         exclude: /node_modules/
       }
     ]
   },
   resolve: {
-    extensions: ['.js', '.ts', '.tsx']
+    extensions: ['.js', '.ts', '.tsx', '.vue'],
+    alias: { vue: 'vue/dist/vue.esm.js' }
   },
   plugins: [
     new CopyWebpackPlugin([
