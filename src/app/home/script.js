@@ -1,6 +1,8 @@
-import Clock from '../clock/Clock.vue';
 import * as localforage from 'localforage';
 import { domainStorageKey, getCurrentYYYYMMDD } from '../utils';
+
+import Clock from '../clock/Clock.vue';
+import Timespent from '../timespent/Timespent.vue';
 
 export default {
   mounted() {
@@ -39,6 +41,7 @@ export default {
     }
   },
   components: {
-    Clock
+    Clock,
+    Timespent
   }
 };

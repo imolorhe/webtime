@@ -48,9 +48,15 @@ export class TimeTracker {
     getFocusedTab().then(tab => {
       const url = tab.url;
       if (url) {
-        const domain = parseUrl(url).resource;
+        const parsedUrl = parseUrl(url);
+        const domain = parsedUrl.resource;
 
         this.recordLastTracked();
+
+        if (parsedUrl.protocol === 'chrome') {
+          // Don't track chrome internal URLs
+          return false;
+        }
 
         // Start tracking the time for the domain
         this.lastTime = Date.now();

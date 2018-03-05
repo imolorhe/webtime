@@ -4,7 +4,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const config = {
   entry: {
     bundle: './src/app/background.ts',
-    app: './src/app/app.ts'
+    app: './src/app/app.ts',
+    popup: './src/app/popup.ts'
   },
   output: {
     path: path.resolve(__dirname, 'webtime-dist')

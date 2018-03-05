@@ -1,5 +1,28 @@
 export const domainStorageKey = 'tt::domains';
 
+export const colors = [
+  '#5628B4',
+  '#D80E70',
+  '#E7455F',
+  '#F7B236',
+  '#EF3E36',
+  '#550527',
+  '#FFAE03',
+  '#E67F0D',
+  '#FE4E00',
+  '#586BA4',
+  '#324376',
+  '#F5DD90',
+  '#93B5C6',
+  '#DDEDAA',
+  '#F0CF65',
+  '#03CEA4',
+  '#972D07'
+];
+
+/**
+ * Gets the currently focused tab
+*/
 export const getFocusedTab = (): Promise<chrome.tabs.Tab> => {
   return new Promise((resolve, reject) => {
     try {
@@ -34,4 +57,16 @@ export const getCurrentYYYYMMDD = () => {
   const dd = curDate.getDate().toString().padStart(2, '0');
 
   return `${yyyy}-${mm}-${dd}`;
+};
+
+/**
+ * Gets an array of size `num` of colors
+ * @param num The number of colors to generate
+ */
+export const getColors = num => {
+  let colorList = [];
+  for (let i = 0; i < num; i++) {
+    colorList.push(colors[Math.floor(Math.random() * colors.length)]);
+  }
+  return colorList;
 };
