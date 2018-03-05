@@ -22,6 +22,9 @@
     ],
     "persistent": false
   },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {

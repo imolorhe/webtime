@@ -1,5 +1,6 @@
 import * as parseUrl from 'parse-url';
-import { getFocusedTab } from './utils';
+import * as localforage from 'localforage';
+import { getFocusedTab, getCurrentYYYYMMDD } from './utils';
 
 interface DomainItemData {
   /** 
@@ -9,13 +10,19 @@ interface DomainItemData {
 }
 
 interface DomainList {
-  [index: string]: DomainItemData;
+  [date: string]: {
+    [domain: string]: DomainItemData;
+  }
 }
 
 export class TimeTracker {
+  domainsStorageKey = 'tt::domains';
   currentDomain = '';
   lastTime = Date.now();
   isTracking = false;
+
+  // Specifies if the time tracker is setup
+  isReady = false;
 
   INITIAL_DOMAIN_DATA: DomainItemData = {
     total_time: 0
@@ -24,10 +31,20 @@ export class TimeTracker {
   domains: DomainList = {};
 
   constructor() {
-    this.startTracking();
+    localforage.getItem(this.domainsStorageKey).then((domains: DomainList) => {
+      if (domains) {
+        this.domains = domains;
+      }
+      this.isReady = true;
+      this.startTracking();
+    });
   }
 
   startTracking() {
+    if (!this.isReady) {
+      // If not ready, return
+      return false;
+    }
     getFocusedTab().then(tab => {
       const url = tab.url;
       if (url) {
@@ -49,6 +66,10 @@ export class TimeTracker {
   }
 
   stopTracking() {
+    if (!this.isReady) {
+      // If not ready, return
+      return false;
+    }
     this.recordLastTracked();
     this.isTracking = false;
     this.currentDomain = '';
@@ -59,12 +80,19 @@ export class TimeTracker {
   private recordLastTracked() {
     if (this.isTracking && this.currentDomain) {
       // If already tracking, store the time for the previous domain
-      if (!this.domains[this.currentDomain]) {
+      const date = getCurrentYYYYMMDD();
+      if (!this.domains[date]) {
+        // Initialise the date
+        this.domains[date] = {};
+      }
+      if (!this.domains[date][this.currentDomain]) {
         // Initialise the domain
-        this.domains[this.currentDomain] = { ...this.INITIAL_DOMAIN_DATA };
+        this.domains[date][this.currentDomain] = { ...this.INITIAL_DOMAIN_DATA };
       }
       // Add the time difference to the total time (in seconds)
-      this.domains[this.currentDomain].total_time += ((Date.now() - this.lastTime) / 1000);
+      this.domains[date][this.currentDomain].total_time += ((Date.now() - this.lastTime) / 1000);
+
+      localforage.setItem(this.domainsStorageKey, this.domains);
     }
   }
 }

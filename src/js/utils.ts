@@ -20,3 +20,16 @@ export const getFocusedTab = (): Promise<chrome.tabs.Tab> => {
     }
   });
 };
+
+/**
+ * Gets the current date in YYYY-MM-DD format
+*/
+export const getCurrentYYYYMMDD = () => {
+  const curDate = new Date();
+
+  const yyyy = curDate.getFullYear().toString().padStart(4, '0');
+  const mm = (curDate.getMonth() + 1).toString().padStart(2, '0');
+  const dd = curDate.getDate().toString().padStart(2, '0');
+
+  return `${yyyy}-${mm}-${dd}`;
+};
