@@ -10,8 +10,6 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'webtime-dist')
   },
-  mode: 'development',
-  devtool: 'inline-source-map',
   module: {
     rules: [
       // { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
@@ -34,7 +32,7 @@ const config = {
   },
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.vue'],
-    alias: { vue: 'vue/dist/vue.esm.js' }
+    // alias: { vue: 'vue/dist/vue.esm.js' }
   },
   plugins: [
     new CopyWebpackPlugin([

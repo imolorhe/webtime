@@ -4,8 +4,7 @@ import Popup from './popup/Popup.vue';
 
 new Vue({
   el: '#popup',
-  template: '<Popup/>',
-  components: { Popup }
+  render: h => h(Popup)
 });
 
 

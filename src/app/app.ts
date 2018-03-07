@@ -2,10 +2,14 @@ import Vue from 'vue';
 
 import Home from './home/Home.vue';
 
+/**
+ * We need to use the render() function because template is not CSP-compliant.
+ * Only render() function used in conjunction with vue files is CSP-compliant.
+ */
+
 new Vue({
   el: '#app',
-  template: '<Home/>',
-  components: { Home }
+  render: h => h(Home)
 });
 
 
