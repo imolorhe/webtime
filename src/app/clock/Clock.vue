@@ -9,8 +9,6 @@
 <style>
   .wall-clock {
     text-align: center;
-    grid-column: 1 / -1;
-    grid-row: 2 / -1;
   }
   .wall-clock__content {
     display: inline-block;

@@ -35,9 +35,12 @@
       </div>
     </template>
 
-    <Clock v-if="!showDashboard" />
+    <div class="app-clock-container" :class="{ 'app-clock-container--show': !showDashboard && showApp }">
+      <Clock />
+    </div>
+
   </div>
-  <div class="top-domain-stats" v-if="!showDashboard">
+  <div class="top-domain-stats" :class="{ 'top-domain-stats--show': !showDashboard && showApp }">
     <div class="top-domain-stats__top">
       <h2 class="top-domain-stats__title">Top domains visited today</h2>
       <div class="app-show-dashboard-btn" v-on:click="showDashboard = true">

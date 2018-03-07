@@ -14,11 +14,15 @@ export default {
     }
     window.addEventListener('load', windowLoaded);
 
+    // Delay showApp to force CSS enter transitions depending on it to work
+    setTimeout(() => this.showApp = true, 0);
+
     // Load the top domains
     this.getTopDomains();
   },
   data() {
     return {
+      showApp: false,
       showBg: false,
       showDashboard: false,
       allDomains: [],
@@ -39,9 +43,9 @@ export default {
           // Sort the domains in descending order based on their total time
           domains.sort((a, b) => b.total_time - a.total_time);
 
-          // Get the first 5 domains
+          // Get the first 6 domains
           this.allDomains = [ ...domains ];
-          this.topDomains = domains.filter((v, i) => i < 5);
+          this.topDomains = domains.filter((v, i) => i < 6);
 
           this.totalTime = getTotalTime(domainsObj);
         }
