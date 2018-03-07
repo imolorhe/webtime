@@ -81,7 +81,6 @@ export class TimeTracker {
     }
     this.recordLastTracked();
     this.isTracking = false;
-    this.currentDomain = '';
     console.log('Stopped tracking.');
     console.log('Last site stats', this.domains);
   }
@@ -98,11 +97,20 @@ export class TimeTracker {
         // Initialise the domain
         this.domains[date][this.currentDomain] = { ...this.INITIAL_DOMAIN_DATA };
       }
-      // Add the time difference to the total time (in seconds)
-      this.domains[date][this.currentDomain].total_time += ((Date.now() - this.lastTime) / 1000);
-      this.domains[date][this.currentDomain].domain = this.currentDomain;
 
-      localforage.setItem(this.domainsStorageKey, this.domains);
+      const curTime = Date.now();
+
+      // Check that the time difference is up to 3 seconds before recording it
+      if (Date.now() - this.lastTime >= 3000) {
+        // Add the time difference to the total time (in seconds)
+        this.domains[date][this.currentDomain].total_time += ((Date.now() - this.lastTime) / 1000);
+        this.domains[date][this.currentDomain].domain = this.currentDomain;
+
+        localforage.setItem(this.domainsStorageKey, this.domains);
+      }
+
+      // Reset the current domain after tracking it
+      this.currentDomain = '';
     }
   }
 }

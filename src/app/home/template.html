@@ -1,5 +1,8 @@
 <div class="app-wrapper">
   <div class="app-background" v-bind:class="{ 'app-background--show': showBg }"></div>
+  <div class="app-close-dashboard-btn" v-if="showDashboard" v-on:click="showDashboard = false">
+    Close dashboard
+  </div>
   <div class="app-content">
     <template v-if="showDashboard">
       <div class="app-dashboard-widget">
@@ -35,7 +38,14 @@
     <Clock v-if="!showDashboard" />
   </div>
   <div class="top-domain-stats" v-if="!showDashboard">
-    <h2 class="top-domain-stats__title">Top domains visited today</h2>
+    <div class="top-domain-stats__top">
+      <h2 class="top-domain-stats__title">Top domains visited today</h2>
+      <div class="app-show-dashboard-btn" v-on:click="showDashboard = true">
+        <img class="app-icon" src="/chart-icon.svg" alt="chart">
+        Show dashboard
+      </div>
+    </div>
+
     <div class="top-domain-stats__content">
       <div class="top-domain-stat" v-for="domain in topDomains">
         <Timespent :total="domain.total_time" />

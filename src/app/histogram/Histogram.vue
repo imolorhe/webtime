@@ -6,9 +6,15 @@ export default {
   extends: Line,
   props: ['histogramData', 'options'],
   mounted () {
+    this.renderWithData();
   },
   watch: {
     histogramData() {
+      this.renderWithData();
+    }
+  },
+  methods: {
+    renderWithData() {
       const labels = this.histogramData.map(data => data.date);
       const data = this.histogramData.map(data => data.value);
       this.renderChart({
@@ -48,7 +54,7 @@ export default {
             }
           }]
         }
-      })
+      });
     }
   }
 }

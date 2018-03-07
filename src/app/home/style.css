@@ -9,6 +9,11 @@
 * {
   box-sizing: border-box;
 }
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 html, body {
   margin: 0;
   height: 100%;
@@ -37,6 +42,35 @@ html, body {
 }
 .app-background--show {
   opacity: 1;
+}
+
+.app-icon {
+  width: 20px;
+  vertical-align: middle;
+}
+
+.app-close-dashboard-btn {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  color: #ffffff;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 5px;
+  background: rgba(0, 0, 0, .8);
+  border-radius: 0 0 5px 5px;
+}
+.app-show-dashboard-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  vertical-align: middle;
+  text-transform: uppercase;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .app-content {
@@ -126,6 +160,9 @@ html, body {
 }
 .top-domain-stats:hover {
   opacity: 1;
+}
+.top-domain-stats__top {
+  position: relative;
 }
 .top-domain-stats__title {
   text-transform: uppercase;
