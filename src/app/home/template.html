@@ -1,10 +1,41 @@
 <div class="app-wrapper">
   <div class="app-background" v-bind:class="{ 'app-background--show': showBg }"></div>
   <div class="app-content">
-    <Clock />
+    <template v-if="showDashboard">
+      <div class="app-dashboard-widget">
+        <div class="app-dashboard-widget__title">Total browsing time today</div>
+        <div class="app-dashboard-widget__data"><Timespent :total='totalTime' /></div>
+      </div>
+
+      <div class="app-dashboard-widget" v-if="topDomains[0]">
+        <div class="app-dashboard-widget__title">Most visited domain today</div>
+        <div class="app-dashboard-widget__data">
+          {{ topDomains[0].domain }}
+        </div>
+      </div>
+
+      <div class="app-dashboard-widget app-dashboard-widget--histogram">
+        <div class="app-dashboard-widget__title">Daily total browsing time</div>
+        <div class="app-dashboard-widget__graph">
+          <Histogram :histogramData='histogramData' />
+        </div>
+      </div>
+
+      <div class="app-dashboard-widget app-dashboard-widget--full-width">
+        <div class="app-dashboard-widget__title">List of domains visited</div>
+        <div class="app-dashboard-widget__item-grid">
+          <div class="widget-grid-item" v-for="domain in allDomains">
+            <div class="widget-grid-item__domain">{{ domain.domain }}</div>
+            <Timespent :total='domain.total_time' />
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <Clock v-if="!showDashboard" />
   </div>
-  <div class="top-domain-stats">
-    <h2 class="top-domain-stats__title">Top sites visited today</h2>
+  <div class="top-domain-stats" v-if="!showDashboard">
+    <h2 class="top-domain-stats__title">Top domains visited today</h2>
     <div class="top-domain-stats__content">
       <div class="top-domain-stat" v-for="domain in topDomains">
         <Timespent :total="domain.total_time" />

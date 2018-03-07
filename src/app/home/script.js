@@ -1,8 +1,9 @@
 import * as localforage from 'localforage';
-import { domainStorageKey, getCurrentYYYYMMDD } from '../utils';
+import { domainStorageKey, getCurrentYYYYMMDD, getYYYYMMDD, addDays, getTotalTime } from '../utils';
 
 import Clock from '../clock/Clock.vue';
 import Timespent from '../timespent/Timespent.vue';
+import Histogram from '../histogram/Histogram.vue';
 
 export default {
   mounted() {
@@ -19,7 +20,11 @@ export default {
   data() {
     return {
       showBg: false,
-      topDomains: []
+      showDashboard: false,
+      allDomains: [],
+      topDomains: [],
+      totalTime: 0,
+      histogramData: []
     }
   },
   methods: {
@@ -35,13 +40,29 @@ export default {
           domains.sort((a, b) => b.total_time - a.total_time);
 
           // Get the first 5 domains
+          this.allDomains = [ ...domains ];
           this.topDomains = domains.filter((v, i) => i < 5);
+
+          this.totalTime = getTotalTime(domainsObj);
         }
+
+        const histogramData = [];
+        // Get total time for yesterday down to 12 days ago
+        for(let i = 12; i > 0; i--) {
+          const date = getYYYYMMDD(addDays(new Date(), -i));
+          histogramData.push({
+            date,
+            value: getTotalTime(domainData[date])
+          });
+        }
+
+        this.histogramData = histogramData;
       });
     }
   },
   components: {
     Clock,
-    Timespent
+    Timespent,
+    Histogram
   }
 };

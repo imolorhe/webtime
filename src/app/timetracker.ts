@@ -2,14 +2,16 @@ import * as parseUrl from 'parse-url';
 import * as localforage from 'localforage';
 import { getFocusedTab, getCurrentYYYYMMDD, domainStorageKey } from './utils';
 
-interface DomainItemData {
+export interface DomainItemData {
   /** 
    * Total time spent on domain (in seconds)
   */
   total_time: number;
+
+  domain: string;
 }
 
-interface DomainList {
+export interface DomainList {
   [date: string]: {
     [domain: string]: DomainItemData;
   }
@@ -25,7 +27,8 @@ export class TimeTracker {
   isReady = false;
 
   INITIAL_DOMAIN_DATA: DomainItemData = {
-    total_time: 0
+    total_time: 0,
+    domain: ''
   };
 
   domains: DomainList = {};
@@ -97,6 +100,7 @@ export class TimeTracker {
       }
       // Add the time difference to the total time (in seconds)
       this.domains[date][this.currentDomain].total_time += ((Date.now() - this.lastTime) / 1000);
+      this.domains[date][this.currentDomain].domain = this.currentDomain;
 
       localforage.setItem(this.domainsStorageKey, this.domains);
     }

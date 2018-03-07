@@ -1,3 +1,5 @@
+import { DomainItemData } from './timetracker';
+
 export const domainStorageKey = 'tt::domains';
 
 export const colors = [
@@ -46,17 +48,38 @@ export const getFocusedTab = (): Promise<chrome.tabs.Tab> => {
   });
 };
 
+export const getTotalTime = (domainData: DomainItemData): number => {
+  return domainData ? Object.values(domainData).reduce((acc, cur) => acc + cur.total_time, 0) : 0;
+}
+
 /**
  * Gets the current date in YYYY-MM-DD format
 */
-export const getCurrentYYYYMMDD = () => {
-  const curDate = new Date();
+export const getCurrentYYYYMMDD = () => getYYYYMMDD(new Date());
 
-  const yyyy = curDate.getFullYear().toString().padStart(4, '0');
-  const mm = (curDate.getMonth() + 1).toString().padStart(2, '0');
-  const dd = curDate.getDate().toString().padStart(2, '0');
+/**
+ * Returns the specified date in YYYY-MM-DD format
+ * @param date
+ */
+export const getYYYYMMDD = date => {
+  const d = new Date(date);
+
+  const yyyy = d.getFullYear().toString().padStart(4, '0');
+  const mm = (d.getMonth() + 1).toString().padStart(2, '0');
+  const dd = d.getDate().toString().padStart(2, '0');
 
   return `${yyyy}-${mm}-${dd}`;
+};
+
+/**
+ * Add the specified number of days to the date
+ * @param date original date
+ * @param diff number of days to add
+ */
+export const addDays = (date, diff: number) => {
+  const d = new Date(date);
+
+  return d.setDate(d.getDate() + diff);
 };
 
 /**

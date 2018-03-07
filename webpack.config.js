@@ -10,6 +10,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'webtime-dist')
   },
+  mode: 'development',
   devtool: 'inline-source-map',
   module: {
     rules: [

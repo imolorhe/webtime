@@ -1,5 +1,5 @@
 <script>
-import { Doughnut, mixins } from 'vue-chartjs'
+import { Doughnut } from 'vue-chartjs'
 import { getColors } from '../utils';
 
 export default {

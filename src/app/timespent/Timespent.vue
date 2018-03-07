@@ -20,10 +20,10 @@ export default {
   props: ['total'],
   computed: {
     hours() {
-      return parseInt(this.total / (60 * 60), 10);
+      return Math.floor(this.total / (60 * 60), 10);
     },
     minutes() {
-      return parseInt(this.total / 60, 10) % 60;
+      return Math.floor(this.total / 60) % 60;
     },
     seconds() {
       return parseInt(this.total, 10) % 60;
