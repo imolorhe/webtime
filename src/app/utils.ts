@@ -48,8 +48,68 @@ export const getFocusedTab = (): Promise<chrome.tabs.Tab> => {
   });
 };
 
+/**
+ * Returns the total time for a particular date object in seconds
+ * @param domainData
+ */
 export const getTotalTime = (domainData: DomainItemData): number => {
   return domainData ? Object.values(domainData).reduce((acc, cur) => acc + cur.total_time, 0) : 0;
+}
+
+/**
+ * Pads a number with zeros
+ * @param val
+ * @param padding
+ * @returns string
+ */
+const padWithZeros = (val: number, padding?: number) => {
+  let pad = '';
+  if (padding) pad = new Array(padding + 1).join("0");
+  else if (val < 10) pad = '0'
+
+  return `${pad}${val}`;
+}
+
+/**
+ * Pads with any arbitrary string(s)
+ * @param str
+ * @param pad
+ * @returns string
+ */
+const padWithString = (val: any, ...pad: any[]) => {
+  return `${pad.join('')} ${val}`;
+}
+
+/**
+ * Formats a value in seconds to the format: `70Y 03M 02D 12h 40m 13s`
+ * @param seconds
+ */
+export const getFormattedSeconds = (seconds) => {
+  const date = new Date(null);
+  date.setSeconds(seconds);
+
+  // Define `new Date(null)` 's non-zero defaults
+  const leastYear = 1970;
+  const leastMonth = 1;
+  const leastDay = 1;
+
+  // Get the UTC time for this date (We don't care  about zones
+  // since the seconds value is a time difference)
+  const ss = date.getUTCSeconds();
+  const mm = date.getUTCMinutes();
+  const hh = date.getUTCHours();
+  const DD = date.getUTCDate() - leastDay;
+  const MM = date.getUTCMonth() + 1 - leastMonth;
+  const YY = date.getUTCFullYear() - leastYear;
+
+  let result = `${padWithZeros(ss)}s`;
+  if (mm > 0) result = padWithString(result, padWithZeros(mm), 'm');
+  if (hh > 0) result = padWithString(result, padWithZeros(hh), 'h');
+  if (DD > 0) result = padWithString(result, padWithZeros(DD), 'D');
+  if (MM > 0) result = padWithString(result, padWithZeros(MM), 'M');
+  if (YY > 0) result = padWithString(result, padWithZeros(YY), 'Y');
+
+  return result;
 }
 
 /**

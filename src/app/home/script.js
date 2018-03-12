@@ -18,7 +18,10 @@ export default {
     setTimeout(() => this.showApp = true, 0);
 
     // Load the top domains
-    this.getTopDomains();
+    this.getDomainData().then(domainData => {
+      this.getTopDomains(domainData || {});
+      this.getHistogramData(domainData || {});
+    })
   },
   data() {
     return {
@@ -32,25 +35,28 @@ export default {
     }
   },
   methods: {
-    getTopDomains() {
-      return localforage.getItem(domainStorageKey).then(domainData => {
-        const date = getCurrentYYYYMMDD();
-        const domainsObj = domainData[date];
+    getDomainData() {
+      return localforage.getItem(domainStorageKey);
+    },
+    getTopDomains(domainData) {
+      const date = getCurrentYYYYMMDD();
+      const domainsObj = domainData[date];
 
-        if (domainsObj) {
-          const domains = Object.keys(domainsObj).map(domain => ({...domainsObj[domain], domain}));
+      if (domainsObj) {
+        const domains = Object.keys(domainsObj).map(domain => ({...domainsObj[domain], domain}));
 
-          // Sort the domains in descending order based on their total time
-          domains.sort((a, b) => b.total_time - a.total_time);
+        // Sort the domains in descending order based on their total time
+        domains.sort((a, b) => b.total_time - a.total_time);
 
-          // Get the first 6 domains
-          this.allDomains = [ ...domains ];
-          this.topDomains = domains.filter((v, i) => i < 6);
+        // Get the first 6 domains
+        this.allDomains = [ ...domains ];
+        this.topDomains = domains.filter((v, i) => i < 6);
 
-          this.totalTime = getTotalTime(domainsObj);
-        }
-
-        const histogramData = [];
+        this.totalTime = getTotalTime(domainsObj);
+      }
+    },
+    getHistogramData(domainData) {
+      const histogramData = [];
         // Get total time for yesterday down to 12 days ago
         for(let i = 12; i > 0; i--) {
           const date = getYYYYMMDD(addDays(new Date(), -i));
@@ -61,7 +67,6 @@ export default {
         }
 
         this.histogramData = histogramData;
-      });
     }
   },
   components: {
