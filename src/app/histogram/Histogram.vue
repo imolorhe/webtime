@@ -1,6 +1,6 @@
 <script>
 import { Line } from 'vue-chartjs'
-import { getColors } from '../utils';
+import { getColors, getFormattedSeconds } from '../utils';
 
 export default {
   extends: Line,
@@ -53,6 +53,12 @@ export default {
               beginAtZero: true
             }
           }]
+        },
+        tooltips: {
+          enabled: true,
+          callbacks: {
+            label: (tooltipItems, data) => getFormattedSeconds(tooltipItems.yLabel),
+          }
         }
       });
     }
